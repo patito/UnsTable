@@ -2,7 +2,7 @@ CC      := gcc
 
 CFLAGS  := -W -Wall  -Wextra -Werror -I/usr/local/include/
 
-BIN     := bin/malelf
+BIN     := unstable
 
 SRC := src/main.c src/unstable.c
 OBJ := $(patsubst %.c,%.o,$(SRC))
