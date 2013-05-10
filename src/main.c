@@ -13,8 +13,11 @@ int main()
                            "Member7", "Member8", "Member9",
                            NULL};
 
-        unstable_init(&table, 81, 3, 3, "Table Title", content, headers);
-        
+        unstable_init(&table, 81, 3, 3);
+        unstable_set_title(&table, "Table Title");
+        unstable_set_headers(&table, headers);
+        unstable_set_content(&table, content);
+
         unstable_print(&table);
 
         return 0;
