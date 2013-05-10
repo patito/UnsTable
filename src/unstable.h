@@ -9,9 +9,9 @@
 #define LESS  '-'
 
 /* UnsTableLine
- * 
- * +-------------------------------------------------+ 
- * |  begin (+)        (+) partition (+)    end (+)  | 
+ *
+ * +-------------------------------------------------+
+ * |  begin (+)        (+) partition (+)    end (+)  |
  * |         +----------+-------------+----------+   |
  * |                      middle (-)                 |
  * +-------------------------------------------------+
@@ -41,13 +41,19 @@ typedef struct {
         UnsTableLine line;
 } UnsTable;
 
-UnsTableError unstable_init(UnsTable *obj, 
-                            unsigned int width, 
-                            unsigned int nrows, 
-                            unsigned int ncolumns,
-                            char *title,
-                            char **content,
-                            char **headers);
+UnsTableError unstable_init(UnsTable *obj,
+                            unsigned int width,
+                            unsigned int nrows,
+                            unsigned int ncolumns);
+
+UnsTableError unstable_set_title(UnsTable *obj,
+                                 char *title);
+
+UnsTableError unstable_set_headers(UnsTable *obj,
+                                 char **headers);
+
+UnsTableError unstable_set_content(UnsTable *obj,
+                                   char **content);
 
 UnsTableError unstable_print(UnsTable *obj);
 
