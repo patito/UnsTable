@@ -44,6 +44,9 @@ UnsTableError unstable_init(UnsTable *obj,
         obj->line.begin = PLUS;
         obj->line.middle = LESS;
         obj->line.partition = PLUS;
+        obj->title = NULL;
+        obj->headers = NULL;
+        obj->content = NULL;
         init = true;
 
         return UNSTABLE_SUCCESS;
@@ -291,8 +294,8 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
         col_end = col_length;
         partitions = col_length;
         col_middle = _unstable_get_column_middle(col_begin,
-                                                     col_end,
-                                                     obj->headers[pos]);
+                                                 col_end,
+                                                 obj->headers[pos]);
 
         _unstable_print_char(PIPE);
         for (i = 1; i < obj->width; i++) {
@@ -303,8 +306,8 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
                         col_begin = col_begin + col_length;
                         pos++;
                         col_middle = _unstable_get_column_middle(col_end,
-                                                                     col_begin,
-                                                                     obj->headers[pos]);
+                                                                 col_begin,
+                                                                 obj->headers[pos]);
                         count++;
                         continue;
                 }
