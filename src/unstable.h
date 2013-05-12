@@ -17,11 +17,17 @@
  * +-------------------------------------------------+
  *
  */
+
 typedef enum {
         UNSTABLE_SUCCESS,
         UNSTABLE_ERROR
 } UnsTableError;
 
+typedef enum {
+        UNSTABLE_INT,
+        UNSTABLE_HEX,
+        UNSTABLE_STR
+} UnsTableType;
 
 typedef struct {
         char begin;
@@ -35,6 +41,7 @@ typedef struct {
         unsigned int width;
         unsigned int nrows;
         unsigned int ncolumns;
+        unsigned int element;
         char *title;
         char **content;
         char **headers;
@@ -46,6 +53,8 @@ UnsTableError unstable_init(UnsTable *obj,
                             unsigned int nrows,
                             unsigned int ncolumns);
 
+UnsTableError unstable_finish(UnsTable *obj);
+
 UnsTableError unstable_set_title(UnsTable *obj,
                                  char *title);
 
@@ -56,6 +65,12 @@ UnsTableError unstable_set_content(UnsTable *obj,
                                    char **content);
 
 UnsTableError unstable_print(UnsTable *obj);
+
+UnsTableError unstable_add_value(UnsTable *obj, 
+                                 void *value, 
+                                 UnsTableType type);
+
+UnsTableError unstable_add_row(UnsTable *obj, char **row);
 
 UnsTableError unstable_set_width(UnsTable *obj, unsigned int width);
 
