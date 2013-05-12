@@ -19,7 +19,7 @@ int main()
         unstable_add_value(&table, (void *)"g4zz1", UNSTABLE_STR);
         unstable_add_value(&table, (void *)0x1337, UNSTABLE_HEX);
         unstable_add_row(&table, row);
-        
+
         unstable_print(&table);
 
         unstable_finish(&table);

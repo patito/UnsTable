@@ -425,6 +425,10 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
                 return UNSTABLE_ERROR;
         }
 
+        if (NULL == obj->title) {
+                _unstable_print_line(obj);
+        }
+
         _unstable_get_column_length(obj, &col_length);
         col_end = col_length;
         partitions = col_length;
@@ -476,7 +480,6 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
         if (NULL == obj) {
                 return UNSTABLE_ERROR;
         }
-
 
         _unstable_get_column_length(obj, &col_length);
         col_end = col_length;
@@ -536,6 +539,10 @@ UnsTableError unstable_print(UnsTable *obj)
 
         if (NULL != obj->headers) {
                 _unstable_print_headers(obj);
+        } else {
+                if (NULL == obj->title) {
+                        _unstable_print_line(obj);
+                }
         }
 
         for (j = 0; j < obj->nrows; j++) {
