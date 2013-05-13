@@ -5,8 +5,6 @@
 
 #include "unstable.h"
 
-static bool init = false;
-
 static UnsTableError _malelf_table_add_int_value(UnsTable *obj, int value)
 {
         if (NULL == obj) {
@@ -136,6 +134,24 @@ static UnsTableError _unstable_alloc(UnsTable *obj)
         return UNSTABLE_SUCCESS;
 }
 
+UnsTableError unstable_set_file(UnsTable *obj, const char *filename)
+{
+        if (NULL == obj) {
+                return UNSTABLE_ERROR;
+        }
+
+        if (NULL == filename) {
+                return UNSTABLE_ERROR;
+        }
+
+        obj->filename = fopen(filename, "a+");
+        if (NULL == obj->filename) {
+                return UNSTABLE_ERROR;
+        } 
+       
+        return UNSTABLE_SUCCESS;
+}
+
 UnsTableError unstable_init(UnsTable *obj,
                             unsigned int width,
                             unsigned int nrows,
@@ -178,7 +194,7 @@ UnsTableError unstable_init(UnsTable *obj,
         obj->headers = NULL;
         obj->content = NULL;
         obj->element = 0;
-        init = true;
+        obj->filename = stdout;
 
         _unstable_alloc(obj);
 
@@ -325,19 +341,19 @@ static UnsTableError _unstable_get_column_length(UnsTable *obj,
         return UNSTABLE_SUCCESS;
 }
 
-static void _unstable_print_char(char character)
+static void _unstable_print_char(UnsTable *obj, char character)
 {
-        fprintf(stdout, "%c", character);
+        fprintf(obj->filename, "%c", character);
 }
 
-static void _unstable_print_str(char *str)
+static void _unstable_print_str(UnsTable *obj, char *str)
 {
-        fprintf(stdout, "%s", str);
+        fprintf(obj->filename, "%s", str);
 }
 
-static void _unstable_new_line()
+static void _unstable_new_line(UnsTable *obj)
 {
-        fprintf(stdout, "\n");
+        fprintf(obj->filename, "\n");
 }
 
 static UnsTableError _unstable_print_line(UnsTable *obj)
@@ -353,17 +369,17 @@ static UnsTableError _unstable_print_line(UnsTable *obj)
                 return UNSTABLE_ERROR;
         }
 
-        _unstable_print_char(obj->line.begin);
+        _unstable_print_char(obj, obj->line.begin);
         for (i = 1; i < obj->width; i++) {
                 if ((aux == i) && (true == obj->line.flag)) {
-                        _unstable_print_char(obj->line.partition);
+                        _unstable_print_char(obj, obj->line.partition);
                         aux = aux + col_length;
                 } else {
-                        _unstable_print_char(obj->line.middle);
+                        _unstable_print_char(obj, obj->line.middle);
                 }
         }
-        _unstable_print_char(obj->line.end);
-        _unstable_new_line();
+        _unstable_print_char(obj, obj->line.end);
+        _unstable_new_line(obj);
 
         return UNSTABLE_SUCCESS;
 }
@@ -394,16 +410,16 @@ static UnsTableError _unstable_print_title(UnsTable *obj)
 
         middle = _unstable_get_column_middle(0, obj->width, obj->title);
         _unstable_print_line(obj);
-        _unstable_print_char(PIPE);
+        _unstable_print_char(obj, PIPE);
         for (i = 1; i < obj->width; i++) {
-                _unstable_print_char(EMPTY);
+                _unstable_print_char(obj, EMPTY);
                 if (middle == i) {
-                        printf("%s", obj->title);
+                        fprintf(obj->filename, obj->title);
                         i = i + strlen(obj->title);
                 }
         }
-        _unstable_print_char(PIPE);
-        _unstable_new_line();
+        _unstable_print_char(obj, PIPE);
+        _unstable_new_line(obj);
         unstable_set_line_flag(obj, true);
         _unstable_print_line(obj);
 
@@ -436,10 +452,10 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
                                                  col_end,
                                                  obj->headers[pos]);
 
-        _unstable_print_char(PIPE);
+        _unstable_print_char(obj, PIPE);
         for (i = 1; i < obj->width; i++) {
                 if (i == col_middle) {
-                        _unstable_print_str(obj->headers[pos]);
+                        _unstable_print_str(obj, obj->headers[pos]);
                         i = i + strlen(obj->headers[pos]) - 1;
                         col_end = col_length * count;
                         col_begin = col_begin + col_length;
@@ -451,14 +467,14 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
                         continue;
                 }
                 if (i == partitions) {
-                        _unstable_print_char(PIPE);
+                        _unstable_print_char(obj, PIPE);
                         partitions = partitions + col_length;
                         continue;
                 }
-                _unstable_print_char(EMPTY);
+                _unstable_print_char(obj, EMPTY);
         }
-        _unstable_print_char(PIPE);
-        _unstable_new_line();
+        _unstable_print_char(obj, PIPE);
+        _unstable_new_line(obj);
         _unstable_print_line(obj);
 
         return UNSTABLE_SUCCESS;
@@ -487,10 +503,10 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
         col_middle = _unstable_get_column_middle(col_begin,
                                                  col_end,
                                                  obj->content[pos]);
-        _unstable_print_char(PIPE);
+        _unstable_print_char(obj, PIPE);
         for (i = 1; i < obj->width; i++) {
                 if (i == col_middle) {
-                        _unstable_print_str(obj->content[pos]);
+                        _unstable_print_str(obj, obj->content[pos]);
                         i = i + strlen(obj->content[pos]) - 1;
                         col_end = col_length * count;
                         col_begin = col_begin + col_length;
@@ -504,14 +520,14 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
                         continue;
                 }
                 if (i == partitions) {
-                        _unstable_print_char(PIPE);
+                        _unstable_print_char(obj, PIPE);
                         partitions = partitions + col_length;
                         continue;
                 }
-                _unstable_print_char(EMPTY);
+                _unstable_print_char(obj, EMPTY);
         }
-        _unstable_print_char(PIPE);
-        _unstable_new_line();
+        _unstable_print_char(obj, PIPE);
+        _unstable_new_line(obj);
         count = 2;
         col_begin = 0;
         col_end = partitions = col_length;
@@ -527,11 +543,6 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
 UnsTableError unstable_print(UnsTable *obj)
 {
         unsigned int j;
-
-        if (false == init) {
-                fprintf(stdout, "You must call unstable_init method.\n");
-                return UNSTABLE_ERROR;
-        }
 
         if (NULL != obj->title) {
                 _unstable_print_title(obj);

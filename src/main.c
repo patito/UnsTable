@@ -10,6 +10,7 @@ int main()
         char *headers[] = {"Member", "Description", "Value", NULL};
         unstable_init(&table, 78, 3, 3);
         unstable_set_title(&table, "Table Title");
+        unstable_set_file(&table, "./teste.txt");
         unstable_set_headers(&table, headers);
 
         char *row[] = {"1", "2", "3"};

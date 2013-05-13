@@ -45,6 +45,7 @@ typedef struct {
         char *title;
         char **content;
         char **headers;
+        FILE *filename;
         UnsTableLine line;
 } UnsTable;
 
@@ -71,6 +72,8 @@ UnsTableError unstable_add_value(UnsTable *obj,
                                  UnsTableType type);
 
 UnsTableError unstable_add_row(UnsTable *obj, char **row);
+
+UnsTableError unstable_set_file(UnsTable *obj, const char *filename);
 
 UnsTableError unstable_set_width(UnsTable *obj, unsigned int width);
 
