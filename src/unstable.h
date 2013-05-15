@@ -46,6 +46,8 @@ typedef struct {
         char *title;
         char **content;
         char **headers;
+        int *column_array;
+        int *column_position;
         UnsTableLine line;
 } UnsTable;
 
