@@ -10,7 +10,6 @@ int main()
         char *headers[] = {"Member", "Description", "Value", NULL};
         unstable_init(&table, 78, 3, 3);
         unstable_set_title(&table, "Table Title");
-        unstable_set_file(&table, "./teste.txt");
         unstable_set_headers(&table, headers);
 
         char *row[] = {"1", "2", "3"};
@@ -21,6 +20,7 @@ int main()
         unstable_add_value(&table, (void *)0x1337, UNSTABLE_HEX);
         unstable_add_row(&table, row);
 
+        unstable_print(&table);
         unstable_print(&table);
 
         unstable_finish(&table);
