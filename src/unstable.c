@@ -339,18 +339,6 @@ UnsTableError unstable_set_line_partition(UnsTable *obj, char partition)
         return UNSTABLE_SUCCESS;
 }
 
-
-static UnsTableError _unstable_get_column_length(UnsTable *obj,
-                                                 unsigned int *clength)
-{
-        if (NULL == obj) {
-                return UNSTABLE_ERROR;
-        }
-        *clength = obj->width/obj->ncolumns;
-
-        return UNSTABLE_SUCCESS;
-}
-
 static void _unstable_print_char(char character)
 {
         fprintf(stdout, "%c", character);
