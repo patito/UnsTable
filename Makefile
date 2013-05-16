@@ -1,6 +1,7 @@
 CC      := gcc
 
-CFLAGS  := -W -Wall  -Wextra -Werror -I/usr/local/include/
+#CFLAGS  := -W -Wall  -Wextra -Werror -I/usr/local/include/
+CFLAGS  := -W -Wall  -Wextra -I/usr/local/include/
 
 BIN     := unstable
 

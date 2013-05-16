@@ -150,8 +150,8 @@ static UnsTableError _unstable_alloc_column_array(UnsTable *obj)
                 return UNSTABLE_ERROR;
         }
 
-        obj->column_array = (int *)malloc(sizeof(int)*50);
-        obj->column_position = (int *)malloc(sizeof(int)*50);
+        obj->column_array = (int *)malloc(sizeof(int)*obj->ncolumns);
+        obj->column_position = (int *)malloc(sizeof(int)*obj->ncolumns);
         for (i = 0; i < (obj->ncolumns); i++) {
                 obj->column_array[i] = 0;
                 obj->column_position[i] = 0;
@@ -493,13 +493,8 @@ static UnsTableError _unstable_print_headers(UnsTable *obj)
 static UnsTableError _unstable_print_content(UnsTable *obj)
 {
         unsigned int i;
-        //unsigned int col_length;
         unsigned int col_middle;
-        static unsigned int pos = 0;
-        //unsigned int col_begin = 0;
-        //unsigned int col_end = 0;
         static unsigned int count = 2;
-        //unsigned int partitions = 0;
         unsigned int col = 0;
         unsigned int column = 1;
         unsigned int old_column = 0;
@@ -511,16 +506,16 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
 
         col_middle = _unstable_get_column_middle(old_column,
                                                  obj->column_position[old_column],
-                                                 obj->headers[pos]);
+                                                 obj->content[obj->pos]);
         _unstable_print_char(PIPE);
         for (i = 1; i < obj->width; i++) {
                 if (i == col_middle) {
-                        _unstable_print_str(obj->headers[pos]);
-                        i = i + strlen(obj->headers[pos]) - 1;
-                        pos++;
+                        _unstable_print_str(obj->content[obj->pos]);
+                        i = i + strlen(obj->content[obj->pos]) - 1;
+                        obj->pos++;
                         col_middle = _unstable_get_column_middle(obj->column_position[old_column],
                                                                  obj->column_position[column],
-                                                                 obj->headers[pos]);
+                                                                 obj->content[obj->pos]);
                         old_column = column;
                         column++;
                         count++;
@@ -535,13 +530,11 @@ static UnsTableError _unstable_print_content(UnsTable *obj)
         }
         _unstable_print_char(PIPE);
         _unstable_new_line();
-        count = 2;
         if (obj->pos < obj->nrows*obj->ncolumns) {
                         col_middle = _unstable_get_column_middle(obj->column_position[old_column],
                                                                  obj->column_position[column],
-                                                                 obj->headers[pos]);
+                                                                 obj->content[obj->pos]);
         }
-
         count = 2;
 
         return UNSTABLE_SUCCESS;
