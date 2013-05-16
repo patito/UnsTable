@@ -23,6 +23,7 @@ int main()
         unstable_add_value(&table, (void *)"Value3", UNSTABLE_STR);
 
         unstable_print(&table);
+        unstable_print(&table);
 
         unstable_finish(&table);
 

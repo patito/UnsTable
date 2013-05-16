@@ -67,6 +67,7 @@ UnsTableError unstable_add_row(UnsTable *obj, char **row)
                                 strlen(row[i])); 
                         obj->element++;
                 }
+                memset(obj->content[i], 0, 50);
         }
         
         return UNSTABLE_SUCCESS;
