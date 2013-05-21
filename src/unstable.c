@@ -114,7 +114,9 @@ UnsTableError unstable_finish(UnsTable *obj)
                 free(obj->column_position);
         }
 
-        free(obj->content);
+        if (obj->content) {
+                free(obj->content);
+        }
 
         return UNSTABLE_SUCCESS;
 }
