@@ -10,8 +10,8 @@ int main()
         /* Headers Finished with NULL! */        
         char *headers[] = {"Header1", "Header2", "Header3", NULL};
 
-        /* Must call init method */
-        unstable_init(&table, 78, 10, 3);
+        /* Must call init method - width, rows, column */
+        unstable_init(&table, 78, 3, 3);
         unstable_set_title(&table, "Table Title");
         unstable_set_headers(&table, headers);
 
