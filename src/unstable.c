@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#include "unstable.h"
+#include <unstable/unstable.h>
 
 static UnsTableError _malelf_table_add_int_value(UnsTable *obj, int value)
 {
