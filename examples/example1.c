@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "unstable.h"
+#include <unstable/unstable.h>
 
 int main()
 {
         UnsTable table;
-        
-        char *headers[] = {"N", "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN", "Description", NULL};
+
+        /* Headers Finished with NULL! */        
+        char *headers[] = {"Header1", "Header2", "Header3", NULL};
+
+        /* Must call init method */
         unstable_init(&table, 78, 10, 3);
         unstable_set_title(&table, "Table Title");
         unstable_set_headers(&table, headers);
@@ -23,8 +26,8 @@ int main()
         unstable_add_value(&table, (void *)"Value3", UNSTABLE_STR);
 
         unstable_print(&table);
-        unstable_print(&table);
 
+        /* Free the memory */
         unstable_finish(&table);
 
         return 0;

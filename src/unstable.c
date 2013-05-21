@@ -412,7 +412,7 @@ static UnsTableError _unstable_print_title(UnsTable *obj)
         for (i = 1; i < obj->width; i++) {
                 _unstable_print_char(EMPTY);
                 if (middle == i) {
-                        fprintf(stdout, obj->title);
+                        fprintf(stdout, "%s", obj->title);
                         i = i + strlen(obj->title);
                 }
         }
