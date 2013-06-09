@@ -8,6 +8,8 @@
 #define PLUS  '+'
 #define LESS  '-'
 
+#define CONTENT_MAX_LEN 50
+
 /* UnsTableLine
  *
  * +-------------------------------------------------+

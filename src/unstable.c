@@ -39,6 +39,11 @@ static UnsTableError _malelf_table_add_str_value(UnsTable *obj, char *value)
                 return UNSTABLE_ERROR;
         }
 
+        if ((NULL == value) ||
+            (strlen(value) > CONTENT_MAX_LEN)) {
+                return UNSTABLE_ERROR;
+        }
+
         if (obj->element < (obj->nrows * obj->ncolumns)) {
                 strncpy(obj->content[obj->element], value, strlen(value));
                 obj->element++;
@@ -62,12 +67,15 @@ UnsTableError unstable_add_row(UnsTable *obj, char **row)
 
         for (i = 0; i < obj->ncolumns; i++) {
                 if (obj->element < (obj->nrows * obj->ncolumns)) {
+                        if ((NULL == row[i]) || 
+                            (strlen(row[i]) > CONTENT_MAX_LEN)) {
+                                continue;
+                        }
                         strncpy(obj->content[obj->element], 
                                 row[i],
                                 strlen(row[i])); 
                         obj->element++;
                 }
-                memset(obj->content[i], 0, 50);
         }
         
         return UNSTABLE_SUCCESS;
@@ -136,11 +144,12 @@ static UnsTableError _unstable_alloc(UnsTable *obj)
         }
 
         for (i = 0; i < obj->nrows * obj->ncolumns; i++) {
-                obj->content[i] = (char*)malloc(50*sizeof(char));
+                obj->content[i] = (char*)malloc(CONTENT_MAX_LEN*sizeof(char));
                 if (obj->content[i] == NULL) {
                         fprintf(stderr, "out of memory\n");
 		        return UNSTABLE_ERROR;
                 }
+                memset(obj->content[i], 0, CONTENT_MAX_LEN);
         }
         return UNSTABLE_SUCCESS;
 }
@@ -383,8 +392,8 @@ static UnsTableError _unstable_print_line(UnsTable *obj)
 }
 
 static int _unstable_get_column_middle(unsigned int colx,
-                                                 unsigned int coly,
-                                                 char *str)
+                                       unsigned int coly,
+                                       char *str)
 {
         if (NULL == str || 0 == strlen(str)) {
                 return -1;
