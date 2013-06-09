@@ -3,7 +3,6 @@ UnsTable
 
 The unstable library is an easy way to print a table.
 
-
 Building and Installing
 =======================
 
