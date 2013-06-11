@@ -5,7 +5,7 @@
 
 #include <unstable/unstable.h>
 
-static UnsTableError _malelf_table_add_int_value(UnsTable *obj, int value)
+static UnsTableError _unstable_add_int_value(UnsTable *obj, int value)
 {
         if (NULL == obj) {
                 return UNSTABLE_ERROR;
@@ -19,7 +19,7 @@ static UnsTableError _malelf_table_add_int_value(UnsTable *obj, int value)
         return UNSTABLE_SUCCESS;
 }
 
-static UnsTableError _malelf_table_add_hex_value(UnsTable *obj, int value)
+static UnsTableError _unstable_add_hex_value(UnsTable *obj, int value)
 {
         if (NULL == obj) {
                 return UNSTABLE_ERROR;
@@ -33,7 +33,7 @@ static UnsTableError _malelf_table_add_hex_value(UnsTable *obj, int value)
         return UNSTABLE_SUCCESS;
 }
 
-static UnsTableError _malelf_table_add_str_value(UnsTable *obj, char *value)
+static UnsTableError _unstable_add_str_value(UnsTable *obj, char *value)
 {
         if (NULL == obj) {
                 return UNSTABLE_ERROR;
@@ -88,11 +88,11 @@ UnsTableError unstable_add_value(UnsTable *obj, void *value, UnsTableType type)
         }
 
         switch(type) {
-        case UNSTABLE_INT: _malelf_table_add_int_value(obj, (int)value);
+        case UNSTABLE_INT: _unstable_add_int_value(obj, (int)value);
                            break;
-        case UNSTABLE_STR: _malelf_table_add_str_value(obj, (char*)value);
+        case UNSTABLE_STR: _unstable_add_str_value(obj, (char*)value);
                            break;
-        case UNSTABLE_HEX: _malelf_table_add_hex_value(obj, (int)value);
+        case UNSTABLE_HEX: _unstable_add_hex_value(obj, (int)value);
                            break;
         }        
 
