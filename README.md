@@ -10,7 +10,7 @@ The library is written in pure C, so the build process is very simple.
 
 First, get the source:
 
-    $ git clone https://github.com/patito/unstable.git
+    $ git clone https://github.com/patito/UnsTable.git
 
 and,
 
