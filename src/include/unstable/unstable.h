@@ -25,12 +25,6 @@ typedef enum {
         UNSTABLE_ERROR
 } UnsTableError;
 
-typedef enum {
-        UNSTABLE_INT,
-        UNSTABLE_HEX,
-        UNSTABLE_STR
-} UnsTableType;
-
 typedef struct {
         char begin;
         char middle;
@@ -71,9 +65,11 @@ UnsTableError unstable_set_content(UnsTable *obj,
 
 UnsTableError unstable_print(UnsTable *obj);
 
-UnsTableError unstable_add_value(UnsTable *obj, 
-                                 void *value, 
-                                 UnsTableType type);
+UnsTableError unstable_add_int_value(UnsTable *obj, int value);
+
+UnsTableError unstable_add_hex_value(UnsTable *obj, int value);
+
+UnsTableError unstable_add_str_value(UnsTable *obj, const char *value);
 
 UnsTableError unstable_add_row(UnsTable *obj, char **row);
 
